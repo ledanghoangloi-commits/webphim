@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu - Góc Điện Ảnh</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="top">
+    <a href="#main-content" class="skip-link">Chuyển đến Nội dung chính</a>
+    
+    <header class="sticky-header">
+        <div class="logo">🎬 REVIEW MOVIES</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="about.html" class="active">Giới thiệu</a></li>
+                <li><a href="gallery.html">Thư viện Phim</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main-content" class="fade-in">
+        <div class="about-card">
+            <h2>Câu Chuyện Của Người Sáng Lập</h2>
+            <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?q=80&w=800&h=400&fit=crop" alt="Góc xem phim thư giãn tại nhà" class="about-img">
+            
+            <article class="bio-text">
+                <h3>Xin chào, tôi là Lê Đăng Hoàng Lợi!</h3>
+                <p>Hiện tại, tôi đang là sinh viên khoa Công nghệ Thông tin tại Đại học Phenikaa. Hằng ngày, thế giới của tôi xoay quanh việc lập trình phần mềm, thiết kế cơ sở dữ liệu, và viết những dòng code. Tuy nhiên, đằng sau những thuật toán logic khô khan ấy, tôi có một niềm đam mê mãnh liệt với nghệ thuật điện ảnh.</p>
+                
+                <p>Tôi luôn tin rằng thiết kế web cũng giống như đạo diễn một bộ phim. Nếu đạo diễn sắp xếp các khung hình, âm thanh, ánh sáng để kể một câu chuyện, thì tôi đã cố gắng mang lại trải nghiệm mượt mà nhất cho người dùng.</p>
+                
+                <p>Trang web <strong>Góc Điện Ảnh</strong> này được ra đời như một bài tập thực hành kỹ năng thiết kế giao diện front-end, nhưng đồng thời cũng là nơi tôi lưu giữ những bộ phim tuyệt vời nhất mà mình từng xem. Hy vọng bạn sẽ tìm thấy một vài gợi ý thú vị cho ngày cuối tuần của mình!</p>
+            </article>
+        </div>
+
+        <!-- Form Đề Xuất Phim -->
+        <section class="suggestion-section">
+            <h3>Bạn có bộ phim nào hay? Gợi ý cho tôi nhé!</h3>
+            <form class="suggestion-form" id="movieForm">
+                <div class="form-group">
+                    <label for="name">Tên của bạn:</label>
+                    <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label for="movie">Tên bộ phim đề xuất:</label>
+                    <input type="text" id="movie" name="movie" placeholder="Ví dụ: Spider-Man, The Matrix..." required>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Lý do tôi nên xem phim này?</label>
+                    <textarea id="reason" name="reason" rows="3" placeholder="Chia sẻ cảm nhận của bạn..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Gửi Đề Xuất</button>
+            </form>
+            
+            <!-- Khu vực hiển thị các phim đã được đề xuất -->
+            <div id="suggested-list" class="suggested-list">
+                <!-- Danh sách đề xuất sẽ xuất hiện ở đây nhờ JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <a href="#top" class="back-to-top">⬆ Lên đầu trang</a>
+
+    <footer>
+        <p>&copy; 2026 Góc Điện Ảnh của Lợi. Bản quyền thuộc về Lê Đăng Hoàng Lợi.</p>
+    </footer>
+
+    <!-- JavaScript xử lý form -->
+    <script>
+        let suggestions = JSON.parse(localStorage.getItem('movieSuggestions')) || [];
+        const listElement = document.getElementById('suggested-list');
+        const form = document.getElementById('movieForm');
+
+        function renderSuggestions() {
+            listElement.innerHTML = '';
+            if (suggestions.length > 0) {
+                listElement.innerHTML = '<h4>Gợi ý từ bạn đọc:</h4>';
+                suggestions.forEach(item => {
+                    listElement.innerHTML += `
+                    <div class="suggestion-item fade-in">
+                        <h5>🍿 ${item.movie}</h5>
+                        <p class="suggester"><strong>Người đề xuất:</strong> ${item.name}</p>
+                        <p class="suggest-reason">"${item.reason}"</p>
+                    </div>`;
+                });
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newEntry = {
+                name: document.getElementById('name').value,
+                movie: document.getElementById('movie').value,
+                reason: document.getElementById('reason').value || 'Không có bình luận.'
+            };
+            suggestions.unshift(newEntry);
+            localStorage.setItem('movieSuggestions', JSON.stringify(suggestions));
+            renderSuggestions();
+            form.reset();
+        });
+
+        renderSuggestions();
+    </script>
+</body>
+</html>
